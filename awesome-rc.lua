@@ -353,9 +353,16 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 2.
+
+    -- Clients mapped onto screen 2. These are browsing,
+    -- documentation etc clients, more fit for a small screen.
+    -- Firefox on tag 2
     { rule = { class = "Firefox" },
-      callback = function(c) c:tags({tags[2][2]}) end
+      properties = { tag = tags[2][2]}
+    },
+    -- Chromium on tag 3
+    { rule = { class = "chromium" },
+      properties = { tag = tags[2][3]}
     },
 }
 -- }}}
