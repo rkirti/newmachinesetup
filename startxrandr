@@ -5,4 +5,10 @@
 # Below works for a particular setup - DP-1 and DVI-I-1 are output
 # names obtained from xrandr -q. The resolution is also obtained
 # from xrandr -q. YMMV.
-xrandr --output DP-1 --mode 1920x1200 --left-of DVI-I-1
+#
+# Notes:
+# - Restart awesome or whatever window manager you are running
+#   after this script
+
+#xrandr --output DP-1 --mode 1920x1200 --left-of DVI-I-1
+xrandr --output DVI-I-1 --mode 2560x1600 --right-of DP-1
