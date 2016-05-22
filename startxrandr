@@ -1,0 +1,8 @@
+#!/bin/sh
+# Managing multiple monitors with xrandr
+# Taken from :
+# https://www.maketecheasier.com/how-to-setup-dual-monitors-with-xrandr/
+# Below works for a particular setup - DP-1 and DVI-I-1 are output
+# names obtained from xrandr -q. The resolution is also obtained
+# from xrandr -q. YMMV.
+xrandr --output DP-1 --mode 1920x1200 --left-of DVI-I-1
