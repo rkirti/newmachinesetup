@@ -6,7 +6,7 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
--- Vicious widgets library 
+-- Vicious widgets library
 vicious = require("vicious")
 
 -- Load Debian menu entries
@@ -68,13 +68,23 @@ layouts =
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
+-- My dual monitor has a 30" screen1 for code
+-- and a 24" screen2 for browsing and documentation
 tags = {
-    names = {"vim term", "chromium", "kernel", 4,5,6,7,8,9},
- }
- for s = 1, screen.count() do
+    -- 30" for code!
+    {
+        names= {"gvim", "terminal", "chroot", "cscope", "shill" ,"kernel",7,8,9},
+    },
+    --- Smaller one for docs
+    {
+        names = {"terminal", "firefox", "chromium", "notes", 5,6,7,8,9},
+    }
+}
     -- Each screen has its own tag table.
-    tags[s] = awful.tag(tags.names, s, layouts[1])
-end
+    for s = 1, screen.count() do
+         -- Replicate screen1
+         tags[s] = awful.tag(tags[s].names, s, layouts[1])
+    end
 -- }}}
 
 -- {{{ Menu
@@ -343,9 +353,10 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+    -- Set Firefox to always map on tags number 2 of screen 2.
+    { rule = { class = "Firefox" },
+      callback = function(c) c:tags({tags[2][2]}) end
+    },
 }
 -- }}}
 
