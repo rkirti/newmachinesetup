@@ -354,15 +354,30 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
 
+    -- Clients mapped onto screen 1. These are code,
+    -- terminal and cscope clients, all benefitting from
+    -- a large screen.
+    { rule = { class = "gvim" },
+      properties = { tag = tags[1][1], switchtotag=true}
+    },
+    { rule = { name = "Terminal" },
+      properties = { tag = tags[1][2], switchtotag=true}
+    },
+    { rule = { name = "cros" },
+      properties = { tag = tags[1][3], switchtotag=true}
+    },
+    { rule = { name = "cscope" },
+      properties = { tag = tags[1][4]}
+    },
     -- Clients mapped onto screen 2. These are browsing,
     -- documentation etc clients, more fit for a small screen.
     -- Firefox on tag 2
     { rule = { class = "Firefox" },
-      properties = { tag = tags[2][2]}
+      properties = { tag = tags[2][2], switchtotag=true}
     },
     -- Chromium on tag 3
     { rule = { class = "chromium" },
-      properties = { tag = tags[2][3]}
+      properties = { tag = tags[2][3], switchtotag=true}
     },
 }
 -- }}}
@@ -397,3 +412,29 @@ end)
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- Autorun programs
+autorun = true
+autorunApps =
+{
+    -- cscope for codebase #1
+    "gnome-terminal --working-directory=/mnt/ssd/chromiumos/src/aosp/system/connectivity/shill --window-with-profile=cscopeshill -t cscopeshill -x cscope -R -p10 &",
+    -- cscope for codebase #2
+    "gnome-terminal --working-directory=/mnt/ssd/chromiumos/src/third_party/kernel/v3.18 --window-with-profile=cscope3.18 -t cscope3.18 -x cscope -R -p10 &",
+    -- cscope for codebase #3
+    "gnome-terminal --working-directory=/mnt/ssd/chromiumos/src/third_party/kernel/v4.4 --window-with-profile=cscope4.4 -t cscope4.4 -x cscope -R -p10 &",
+    -- chroots
+    "gnome-terminal -t croscyan --working-directory=/mnt/ssd/chromiumos/ &",
+    "gnome-terminal -t crosbig --working-directory=/mnt/ssd/chromiumos/ &",
+    -- a default terminal for actual work..
+    "gnome-terminal &",
+    "gvim &",
+    "firefox &",
+    "chromium-browser &"
+}
+
+if autorun then
+    for app = 1, #autorunApps do
+            os.execute(autorunApps[app])
+    end
+end
