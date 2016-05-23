@@ -357,7 +357,7 @@ awful.rules.rules = {
     -- Clients mapped onto screen 1. These are code,
     -- terminal and cscope clients, all benefitting from
     -- a large screen.
-    { rule = { class = "gvim" },
+    { rule = { name = "GVIM" },
       properties = { tag = tags[1][1], switchtotag=true}
     },
     { rule = { name = "Terminal" },
@@ -380,7 +380,7 @@ awful.rules.rules = {
       properties = { tag = tags[2][3], switchtotag=true}
     },
     -- Audio player on tag 9
-    { rule = { class = "audacious" },
+    { rule = { name = "audacious" },
       properties = { tag = tags[2][9], switchtotag=true}
     },
 }
@@ -427,6 +427,12 @@ shill_code_cmd = gnome_terminal_cmd .. shill .. "--window-with-profile=cscopeshi
 kernel_318_cmd = gnome_terminal_cmd .. kernelv318 .. "--window-with-profile=cscope3.18 -t cscope3.18 -x " .. cscope_cmd .. "&"
 kernel_44_cmd = gnome_terminal_cmd .. kernelv44 .. "--window-with-profile=cscope4.4 -t cscope4.4 -x " .. cscope_cmd .. "&"
 
+-- Vim session files
+vimsessions = '~/vimsessions/'
+shill_session = vimsessions .. "shill-session.vim"
+kernel318_session = vimsessions .. "kernel318.session"
+gvim_shill_cmd = "gvim -S " .. shill_session
+gvim_kernel_cmd = "gvim -S " .. kernel318_session
 
 -- Autorun programs
 autorun = true
@@ -443,7 +449,8 @@ autorunApps =
     "gnome-terminal -t crosbig --working-directory=/mnt/ssd/chromiumos/ &",
     -- a default terminal for actual work..
     "gnome-terminal &",
-    "gvim &",
+    gvim_shill_cmd,
+    gvim_kernel_cmd,
     "firefox &",
     "chromium-browser &",
     -- misc
