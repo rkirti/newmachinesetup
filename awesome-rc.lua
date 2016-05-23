@@ -77,7 +77,7 @@ tags = {
     },
     --- Smaller one for docs
     {
-        names = {"terminal", "firefox", "chromium", "notes", 5,6,7,8,9},
+        names = {"terminal", "firefox", "chromium", "notes", 5,6,7,8,"audacious"},
     }
 }
     -- Each screen has its own tag table.
@@ -379,6 +379,10 @@ awful.rules.rules = {
     { rule = { class = "chromium" },
       properties = { tag = tags[2][3], switchtotag=true}
     },
+    -- Audio player on tag 9
+    { rule = { class = "audacious" },
+      properties = { tag = tags[2][9], switchtotag=true}
+    },
 }
 -- }}}
 
@@ -413,16 +417,27 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+-- Codebases I care about
+kernelv318 = "/mnt/ssd/chromiumos/src/third_party/kernel/v3.18 "
+kernelv44 = "/mnt/ssd/chromiumos/src/third_party/kernel/v4.4 "
+shill = "/mnt/ssd/chromiumos/src/aosp/system/connectivity/shill "
+cscope_cmd = "cscope -R -p10"
+gnome_terminal_cmd="gnome-terminal --working-directory="
+shill_code_cmd = gnome_terminal_cmd .. shill .. "--window-with-profile=cscopeshill -t cscopeshill -x " .. cscope_cmd .. "&"
+kernel_318_cmd = gnome_terminal_cmd .. kernelv318 .. "--window-with-profile=cscope3.18 -t cscope3.18 -x " .. cscope_cmd .. "&"
+kernel_44_cmd = gnome_terminal_cmd .. kernelv44 .. "--window-with-profile=cscope4.4 -t cscope4.4 -x " .. cscope_cmd .. "&"
+
+
 -- Autorun programs
 autorun = true
 autorunApps =
 {
     -- cscope for codebase #1
-    "gnome-terminal --working-directory=/mnt/ssd/chromiumos/src/aosp/system/connectivity/shill --window-with-profile=cscopeshill -t cscopeshill -x cscope -R -p10 &",
+    shill_code_cmd,
     -- cscope for codebase #2
-    "gnome-terminal --working-directory=/mnt/ssd/chromiumos/src/third_party/kernel/v3.18 --window-with-profile=cscope3.18 -t cscope3.18 -x cscope -R -p10 &",
+    kernel_318_cmd,
     -- cscope for codebase #3
-    "gnome-terminal --working-directory=/mnt/ssd/chromiumos/src/third_party/kernel/v4.4 --window-with-profile=cscope4.4 -t cscope4.4 -x cscope -R -p10 &",
+    kernel_44_cmd,
     -- chroots
     "gnome-terminal -t croscyan --working-directory=/mnt/ssd/chromiumos/ &",
     "gnome-terminal -t crosbig --working-directory=/mnt/ssd/chromiumos/ &",
@@ -430,7 +445,9 @@ autorunApps =
     "gnome-terminal &",
     "gvim &",
     "firefox &",
-    "chromium-browser &"
+    "chromium-browser &",
+    -- misc
+    "audacious &",
 }
 
 if autorun then
